@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
         onLandEvent.RemoveAllListeners();
         onJumpEvent.RemoveAllListeners();
         onLandEvent.AddListener(edgeCollision.OnLand);
-        onJumpEvent.AddListener(edgeCollision.OnFall);
     }
 
     void OnMouseOver() {
