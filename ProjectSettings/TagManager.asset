@@ -13,7 +13,7 @@ TagManager:
   - Water
   - UI
   - Ball
-  - 
+  - Hoop
   - 
   - 
   - 
@@ -44,4 +44,10 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Hoop
+    uniqueID: 819967351
+    locked: 0
+  - name: Ball
+    uniqueID: 1904370067
     locked: 0
