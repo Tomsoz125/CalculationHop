@@ -28,16 +28,13 @@ public class EdgeCollision : MonoBehaviour
       var topRight = (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, cam.nearClipPlane));
       var bottomRight = (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, -500, cam.nearClipPlane));
 
-      while (GetComponents<EdgeCollider2D>().Length < 2) {
-        gameObject.AddComponent<EdgeCollider2D>();
-      }
-      var edge = GetComponents<EdgeCollider2D>()[0];
+      var edge = GetComponent<EdgeCollider2D>() == null ? gameObject.AddComponent<EdgeCollider2D>() : GetComponent<EdgeCollider2D>();
 
       var edgePoints = new [] {bottomLeft,topLeft,topRight,bottomRight, bottomLeft};
       edge.points = edgePoints;
     }
 
-    public void OnLand(CircleCollider2D playerCollider) {
+    public void OnLand(CircleCollider2D playerCollider, GameObject gameObject) {
         if (playerCollider.transform.position.y > -6.763167 && playerCollider.transform.position.y < 4.5) return;
 
         // TODO: Check the score > 1 if so reset run if not just tp back to start.
