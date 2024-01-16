@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public Camera mainCam;
 
     const float groundRadius = .2f;
-    const float forceMultiplier = 1.9f;
+    public const float forceMultiplier = 1.9f;
     private bool grounded;
     private Rigidbody2D rb;
     private bool isDragging = false;

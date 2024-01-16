@@ -13,43 +13,66 @@ public class PlayerTrajectory : MonoBehaviour
 
     const float groundRadius = .2f;
 
-    public void Trajectory(Quaternion dir) {
+    public void Trajectory(Quaternion angle, Vector3 force) {
         LineRenderer lr = gameObject.GetComponent<LineRenderer>();
         if (lr == null) {
             Debug.LogError("Line Renderer not found!");
             return;
         }
 
-        Vector3[] positions = Plot(dir.).ToArray();
-        lr.positionCount = positions.Length;
+        Vector3[] positions = Plot(angle, force);
+        lr.positionCount = positions.Count();
         lr.SetPositions(positions);
     }
 
-    public Vector3[] Plot(float dir) {
+    public Vector3[] Plot(Quaternion angle, Vector3 force) {
+        List<Vector3> points = new List<Vector3>();
         float maxDuration = 5f;
         float timeStepInterval = 0.1f;
         int maxSteps = (int)(maxDuration / timeStepInterval);
-        Vector3[] lineRendererPoints = new Vector3[maxSteps];
-        Vector3 directionVector = transform.up;
-        Vector3 launchPosition = transform.position + transform.up;
-        _vel = _force / _mass * Time.deltaTime;
+        // Vector2 directionVector = angle;
+        Vector3 launchPosition = angle*transform.position;
+        float velocity = (force.x + force.y) / gameObject.GetComponent<Rigidbody2D>().mass * Time.fixedDeltaTime;
+
+        float velocityX = force.x / gameObject.GetComponent<Rigidbody2D>().mass * Time.fixedDeltaTime;
+        float velocityY = force.y / gameObject.GetComponent<Rigidbody2D>().mass * Time.fixedDeltaTime;
 
         for (int i = 0; i < maxSteps; ++i) {
-            Vector3 calculatedPosition = launchPosition + directionVector * _vel * i * timeStepInterval;
+            if (i == 0) {
+                points.Add(transform.position);
+                continue;
+            }
+
+            Vector3 calculatedPositionX = transform.position + launchPosition * velocityX * i * timeStepInterval;
+            Vector3 calculatedPositionY = transform.position + launchPosition * velocityY * i * timeStepInterval;
+            Vector3 calculatedPosition = new Vector3(calculatedPositionX.x*-1, calculatedPositionY.y*-1); // TODO: VERY CLOSE TO GETTING THIS TO WORK!!!! :):) IT JUST OVERPREDICTS THE VELOCITY HUGELY
+
             calculatedPosition.y += Physics2D.gravity.y/2 * Mathf.Pow(i * timeStepInterval, 2);
 
-            lineRendererPoints.Append(calculatedPosition);
+            points.Add(calculatedPosition);
 
             if (CheckForCollision(calculatedPosition)) break;
         }
+        
+        for (int i = 0; i < points.Count; i++) {
+            Debug.Log(i + ": " + points.ToArray()[i]);
+        }
 
-        Debug.Log(lineRendererPoints.);
-        return lineRendererPoints;
+        return points.ToArray();
     }
 
     public bool CheckForCollision(Vector3 position) {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(position, groundRadius, ground);
 
-        return colliders.Length > 0;;
+        return colliders.Length > 0;
+    }
+
+    public void HideLine() {
+        LineRenderer lr = gameObject.GetComponent<LineRenderer>();
+        if (lr == null) {
+            Debug.LogError("Line Renderer not found!");
+            return;
+        }
+        lr.SetPositions(new List<Vector3>().ToArray());
     }
 }
