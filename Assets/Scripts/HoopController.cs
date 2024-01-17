@@ -43,7 +43,7 @@ public class HoopController : MonoBehaviour
         rot = Quaternion.Euler(0, 0, angle);
         currentHoop.transform.rotation = rot;
 
-        trajectories.Trajectory(rot, playerController.getForce() * PlayerController.forceMultiplier, playerController);
+        //trajectories.Trajectory(rot, playerController.getForce() * PlayerController.forceMultiplier, playerController);
     }
 
     public void OnBallDrag(CircleCollider2D playerColliderL, GameObject currentHoopL) {

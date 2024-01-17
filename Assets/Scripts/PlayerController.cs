@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour
     public Transform topCheck;
     public LayerMask ground;
     public Camera mainCam;
+    public float force = 5f;
 
     const float groundRadius = .2f;
     public const float forceMultiplier = 1.9f;
     private bool grounded;
     private Rigidbody2D rb;
-    private bool isDragging = false;
+    public bool isDragging = false;
     private GameObject currentHoop;
     private GameObject lastHoop;
     private int stillFor = 0;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<CircleCollider2D, GameObject> onDragEvent;
     public EdgeCollision edgeCollision;
     public HoopController hoopController;
+    private Vector2 direction;
 
 
     void Awake() {
@@ -92,26 +94,17 @@ public class PlayerController : MonoBehaviour
                 Move();
             }
         }
+
+        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = transform.position;
+
+        direction = mouse - pos;
     }
 
     public void Move() {
         rb.isKinematic = false;
 
-        forceApplied = getForce() * forceMultiplier * -1;
-
-
-        float launchPositionX = transform.position.x;
-        float _velX = forceApplied.x / gameObject.GetComponent<Rigidbody2D>().mass * Time.deltaTime;
-
-        float launchPositionY = transform.position.y;
-        float _velY = forceApplied.y / gameObject.GetComponent<Rigidbody2D>().mass * Time.deltaTime;
-
-        // rb.AddForce(new Vector3(_velX, _velY));
-
-        //rb.velocity = new Vector3(_velX, _velY);
-        // TODO: JUST LOOP THE LINERENDERER POINTS AND TELEPORT THE BALL TO EACH ONE
-
-        // Vector3[] vectors = hoopController.trajectories.Plot(hoopController.rot, getForce() * forceMultiplier);
+        rb.velocity = direction * getForce();
 
         onJumpEvent.Invoke(rb.GetComponent<CircleCollider2D>(), currentHoop);
         grounded = false;
@@ -120,7 +113,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public Vector3 getForce() {
-        return (Camera.main.ScreenToWorldPoint(Input.mousePosition) - gameObject.transform.position).normalized * 2500;
+        return (Camera.main.ScreenToWorldPoint(Input.mousePosition) - gameObject.transform.position).normalized * 75;
     }
 
     public void SetCurrentHoop(GameObject hoop) {
