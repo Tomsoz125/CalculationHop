@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public EdgeCollision edgeCollision;
     public HoopController hoopController;
 
+
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
         initialPosition = gameObject.transform.position;
@@ -56,7 +57,6 @@ public class PlayerController : MonoBehaviour
     void OnMouseOver() {
         if (Input.GetMouseButtonDown(0)) {
             if (gameObject.tag == "Moveable") {
-                Debug.Log("Moveable");
                 isDragging = true;
                 onDragEvent.Invoke(gameObject.GetComponent<CircleCollider2D>(), currentHoop);
                 rb.isKinematic = true;
@@ -88,7 +88,6 @@ public class PlayerController : MonoBehaviour
     
         if (isDragging) {
             if (Input.GetMouseButtonUp(0)) {
-                Debug.Log("Up");
                 isDragging = false;
                 Move();
             }
@@ -99,7 +98,21 @@ public class PlayerController : MonoBehaviour
         rb.isKinematic = false;
 
         forceApplied = getForce() * forceMultiplier * -1;
-        rb.AddForce(forceApplied);
+
+
+        float launchPositionX = transform.position.x;
+        float _velX = forceApplied.x / gameObject.GetComponent<Rigidbody2D>().mass * Time.deltaTime;
+
+        float launchPositionY = transform.position.y;
+        float _velY = forceApplied.y / gameObject.GetComponent<Rigidbody2D>().mass * Time.deltaTime;
+
+        // rb.AddForce(new Vector3(_velX, _velY));
+
+        //rb.velocity = new Vector3(_velX, _velY);
+        // TODO: JUST LOOP THE LINERENDERER POINTS AND TELEPORT THE BALL TO EACH ONE
+
+        // Vector3[] vectors = hoopController.trajectories.Plot(hoopController.rot, getForce() * forceMultiplier);
+
         onJumpEvent.Invoke(rb.GetComponent<CircleCollider2D>(), currentHoop);
         grounded = false;
         lastHoop = currentHoop;
@@ -122,15 +135,10 @@ public class PlayerController : MonoBehaviour
         while (true) {
             yield return new WaitForSeconds(1f);
             if (currentHoop == null) {
-                Debug.Log("still?");
-                Debug.Log(lastLocation);
-                Debug.Log(gameObject.transform.position);
                 if (lastLocation == gameObject.transform.position) {
-                    Debug.Log("still!");
                     stillFor += 1;
                 } else {
                     stillFor = 0;
-                    Debug.Log("stillf");
                 }
             }
         }

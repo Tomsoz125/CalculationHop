@@ -21,6 +21,7 @@ public class HoopController : MonoBehaviour
     public int score = 0;
     public int perfectStreak = 0;
     public PlayerTrajectory trajectories;
+    public Quaternion rot;
 
 
 
@@ -32,7 +33,6 @@ public class HoopController : MonoBehaviour
     void FixedUpdate() {
         if (!isDragging || !currentHoop) return;
 
-        Debug.Log("drag");
         mousePos = Input.mousePosition;
         mousePos.z = -20;
         objectPos = Camera.main.WorldToScreenPoint(currentHoop.transform.position);
@@ -40,10 +40,10 @@ public class HoopController : MonoBehaviour
         mousePos.y = mousePos.y - objectPos.y;
         angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
         angle += 90;
-        Quaternion rot = Quaternion.Euler(0, 0, angle);
+        rot = Quaternion.Euler(0, 0, angle);
         currentHoop.transform.rotation = rot;
 
-        trajectories.Trajectory(rot, playerController.getForce() * PlayerController.forceMultiplier * -1);
+        trajectories.Trajectory(rot, playerController.getForce() * PlayerController.forceMultiplier, playerController);
     }
 
     public void OnBallDrag(CircleCollider2D playerColliderL, GameObject currentHoopL) {
@@ -55,7 +55,7 @@ public class HoopController : MonoBehaviour
     public void OnBallJump(CircleCollider2D playerCollider, GameObject gameObject) {
         isDragging = false;
         //trajectories.HideLine();
-        currentHoop.transform.rotation = Quaternion.Euler(0,0,0);
+        if (currentHoop != null) currentHoop.transform.rotation = Quaternion.Euler(0,0,0);
         player = null;
         currentHoop = null;
     }
