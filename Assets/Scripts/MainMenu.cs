@@ -37,6 +37,11 @@ public class MainMenu : MonoBehaviour
         }
 
         PlayerPrefs.SetString("playerName", playerName);
+        DataPersistenceManager.instance.LoadGame(playerName);
+        if (!DataPersistenceManager.instance.HasGameData()) {
+            DataPersistenceManager.instance.NewGame(playerName);
+            DataPersistenceManager.instance.SaveGame();
+        }
 
         gameObject.SetActive(false);
         levelSelector.SetActive(true);

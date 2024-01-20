@@ -2,27 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class FailMenu : MonoBehaviour, IDataPersistence
 {
     public LevelSelector levelSelector;
-    public DataPersistenceManager dataPersistenceManager;
-
-    private string playerName;
-    private int score;
     private int level;
+
+    private Dictionary<string, int> highScores;
     
-    void Awake() {
-        score = PlayerPrefs.GetInt("score");
-        playerName = PlayerPrefs.GetString("name");
+    void Start() {
         level = PlayerPrefs.GetInt("end");
 
         PlayerPrefs.SetInt("score", 0);
         PlayerPrefs.SetInt("end", 0);
 
-        dataPersistenceManager.SaveGame();
+        highScores = DataPersistenceManager.instance.GetHighScores(level);
     }
 
     public void BackButton(GameObject mainMenu) {
@@ -40,6 +37,6 @@ public class FailMenu : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data) {}
 
     public void SaveData(ref GameData data) {
-        data.scores.Add(level, score);
+        //data.scores.Add(level, score);
     }
 }

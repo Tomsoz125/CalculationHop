@@ -13,7 +13,7 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
     private Dictionary<int, int> scores;
 
     void Awake() {
-        dataPersistenceManager.LoadGame(PlayerPrefs.GetString("name"));
+        dataPersistenceManager.LoadGame(PlayerPrefs.GetString("playerName"));
 
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
             string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
