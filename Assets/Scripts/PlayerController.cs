@@ -1,6 +1,8 @@
 using System.Collections;
-using UnityEngine; // TODO: IN HOOP CHECK AND RESET BUTTON IF STUCK
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,17 +14,15 @@ public class PlayerController : MonoBehaviour
 
     const float groundRadius = .2f;
     public const float forceMultiplier = 1.9f;
-    private bool grounded;
+    public bool grounded;
     private Rigidbody2D rb;
     public bool isDragging = false;
-    private GameObject currentHoop;
-    private GameObject lastHoop;
+    public GameObject currentHoop;
+    public GameObject lastHoop;
     private int stillFor = 0;
     private Vector3 lastLocation;
 
-    private Vector3 forceApplied;
-
-    private Vector3 initialPosition;
+    public Vector3 initialPosition;
 
 
     public UnityEvent<CircleCollider2D, GameObject> onLandEvent;
@@ -32,8 +32,15 @@ public class PlayerController : MonoBehaviour
     public HoopController hoopController;
     private Vector2 direction;
 
+    public int score = 0;
+    public int perfectStreak = 0;
+
+    public List<int> hoops = new List<int>();
+
 
     void Awake() {
+        hoops.Add(0);
+
         rb = GetComponent<Rigidbody2D>();
         initialPosition = gameObject.transform.position;
 
@@ -84,7 +91,7 @@ public class PlayerController : MonoBehaviour
     void Update() {
         lastLocation = gameObject.transform.position;
         if (stillFor > 3) {
-            this.transform.position = lastHoop == null ? initialPosition : lastHoop.transform.position;
+            transform.position = lastHoop == null ? initialPosition : lastHoop.transform.position;
             stillFor = 0;
         }
     
@@ -104,12 +111,14 @@ public class PlayerController : MonoBehaviour
     public void Move() {
         rb.isKinematic = false;
 
-        rb.velocity = direction * getForce();
+        Vector2 force = getForce();
+        if (direction.x > 0) {
+            force.x *= -1;
+        }
+        rb.velocity = direction * force;
 
         onJumpEvent.Invoke(rb.GetComponent<CircleCollider2D>(), currentHoop);
         grounded = false;
-        lastHoop = currentHoop;
-        currentHoop = null;
     }
 
     public Vector3 getForce() {

@@ -1,10 +1,13 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class EdgeCollision : MonoBehaviour
 {
     public UnityEvent OnFailEvent;
+    public PlayerController playerController;
 
     void Awake () 
     {
@@ -35,9 +38,15 @@ public class EdgeCollision : MonoBehaviour
     }
 
     public void OnLand(CircleCollider2D playerCollider, GameObject gameObject) {
-        if (playerCollider.transform.position.y > -6.763167 && playerCollider.transform.position.y < 4.5) return;
+        if (playerCollider.transform.position.y > -5) return;
 
-        // TODO: Check the score > 1 if so reset run if not just tp back to start.
+        if (playerController.score < 1) {
+            playerController.transform.position = playerController.lastHoop == null ? playerController.initialPosition : playerController.lastHoop.transform.position;
+        } else {
+            PlayerPrefs.SetInt("end", int.Parse(SceneManager.GetActiveScene().name.Replace("Level", "")));
+            PlayerPrefs.SetInt("score", playerController.score);
+            SceneManager.LoadScene(0);
+        }
         OnFailEvent.Invoke();
     }
 }

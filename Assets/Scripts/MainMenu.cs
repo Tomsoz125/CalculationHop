@@ -11,8 +11,17 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     public GameObject levelSelector;
+    public GameObject failMenu;
 
-    private string playerName;
+    string playerName;
+
+    void Awake() {
+        Debug.Log(PlayerPrefs.GetInt("end"));
+        if (PlayerPrefs.GetInt("end") > 0) {
+            gameObject.SetActive(false);
+            failMenu.SetActive(true);
+        }
+    }
 
     public void SelectLevel(GameObject textInput) {
         if (playerName == null || playerName == "") {
@@ -26,6 +35,8 @@ public class MainMenu : MonoBehaviour
             textInput.transform.GetChild(0).GetChild(placeholderId).GetComponent<TMP_Text>().text = "You must enter a name!";
             return;
         }
+
+        PlayerPrefs.SetString("playerName", playerName);
 
         gameObject.SetActive(false);
         levelSelector.SetActive(true);

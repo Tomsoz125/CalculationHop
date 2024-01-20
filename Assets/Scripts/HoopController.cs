@@ -1,5 +1,5 @@
 using System.Collections; // TODO: MAKE THE BALL STAY RENDERED AT THE BOTTOM OF THE HOOP WHEN IT ROTATES
-using System.Collections.Generic; // TODOl ADD HOOP PULL BACK
+using System.Collections.Generic; // TODO: ADD HOOP PULL BACK
 using TMPro;
 using UnityEngine;
 
@@ -15,19 +15,22 @@ public class HoopController : MonoBehaviour
     private float angle;
     private Vector3 objectPos;
     private CircleCollider2D player;
+    private int hoopId;
 
     public PlayerController playerController;
     public TextMeshProUGUI scoreText;
-    public int score = 0;
-    public int perfectStreak = 0;
     public PlayerTrajectory trajectories;
     public Quaternion rot;
+
+    
 
 
 
 
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        
+        hoopId = int.Parse(gameObject.name.Replace("Hoop", ""));
     }
 
     void FixedUpdate() {
@@ -42,8 +45,6 @@ public class HoopController : MonoBehaviour
         angle += 90;
         rot = Quaternion.Euler(0, 0, angle);
         currentHoop.transform.rotation = rot;
-
-        //trajectories.Trajectory(rot, playerController.getForce() * PlayerController.forceMultiplier, playerController);
     }
 
     public void OnBallDrag(CircleCollider2D playerColliderL, GameObject currentHoopL) {
@@ -54,17 +55,28 @@ public class HoopController : MonoBehaviour
 
     public void OnBallJump(CircleCollider2D playerCollider, GameObject gameObject) {
         isDragging = false;
-        //trajectories.HideLine();
+        trajectories.HideLine();
         if (currentHoop != null) currentHoop.transform.rotation = Quaternion.Euler(0,0,0);
         player = null;
         currentHoop = null;
     }
 
     void OnTriggerEnter2D(Collider2D ball) {
+        if (hoopId == 0) playerController.SetCurrentHoop(gameObject);
+        if (playerController.hoops.Contains(hoopId)) return;
+
         playerController.SetCurrentHoop(gameObject);
         if (playerController.GetLastHoop() != null && playerController.GetLastHoop() != gameObject) {
-            score += 1;
-            scoreText.SetText(score.ToString());
+            playerController.score += 1;
+            playerController.hoops.Add(hoopId);
+            scoreText.SetText(playerController.score.ToString());
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D ball) {
+        if (!playerController.grounded) {
+            playerController.lastHoop = playerController.currentHoop;
+            playerController.currentHoop = null;
         }
     }
 }

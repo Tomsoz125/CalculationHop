@@ -4,13 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelSelector : MonoBehaviour
+public class LevelSelector : MonoBehaviour, IDataPersistence
 {
     public GameObject levelObject;
+    public DataPersistenceManager dataPersistenceManager;
     public List<GameObject> levelButtons = new List<GameObject>();
     public Dictionary<int, int> scenes = new Dictionary<int, int>();
+    private Dictionary<int, int> scores;
 
     void Awake() {
+        dataPersistenceManager.LoadGame(PlayerPrefs.GetString("name"));
+
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
             string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
             string[] scenePathSplit = scenePath.Split("/");
@@ -55,4 +59,10 @@ public class LevelSelector : MonoBehaviour
         int sceneNo = scenes.GetValueOrDefault(levelNo, 1);
         SceneManager.LoadScene(sceneNo);
     }
+
+    public void LoadData(GameData data) {
+        scores = data.scores;
+    }
+
+    public void SaveData(ref GameData data) {}
 }
