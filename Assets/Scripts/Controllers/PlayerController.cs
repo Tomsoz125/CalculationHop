@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject currentHoop;
     public GameObject lastHoop;
     private int stillFor = 0;
-    private Vector3 lastLocation;
+    public Vector3 lastLocation;
 
     public Vector3 initialPosition;
 
