@@ -577,6 +577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSelector: {fileID: 2005329081}
+  leaderboard: {fileID: 1489982183}
+  leaderboardText: {fileID: 869712831170716923, guid: 10719c9a90e4fd94293075ff22fc8ba4, type: 3}
 --- !u!1 &563853896
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,7 +2356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'High Scores: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0187a6291b2d08e489357d595df306a4, type: 2}
   m_sharedMaterial: {fileID: -2687078545035215374, guid: 0187a6291b2d08e489357d595df306a4, type: 2}

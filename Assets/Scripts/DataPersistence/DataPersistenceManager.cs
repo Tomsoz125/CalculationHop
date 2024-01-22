@@ -108,6 +108,6 @@ public class DataPersistenceManager : MonoBehaviour {
             }
         }
 
-        return scores;
+        return new Dictionary<string, int>(from entry in scores orderby entry.Value ascending select entry);
     }
 }
