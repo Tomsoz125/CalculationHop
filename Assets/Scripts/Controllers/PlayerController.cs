@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<CircleCollider2D, GameObject> onLandEvent;
     public UnityEvent<CircleCollider2D, GameObject> onJumpEvent;
     public UnityEvent<CircleCollider2D, GameObject> onDragEvent;
+    public CalculationController calcs;
     public EdgeCollision edgeCollision;
     public HoopController hoopController;
     private Vector2 direction;
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     void OnMouseOver() {
         if (Input.GetMouseButtonDown(0)) {
-            if (gameObject.tag == "Moveable") {
+            if (gameObject.tag == "Moveable" && calcs.canJump) {
                 isDragging = true;
                 onDragEvent.Invoke(gameObject.GetComponent<CircleCollider2D>(), currentHoop);
                 rb.isKinematic = true;
@@ -83,6 +84,10 @@ public class PlayerController : MonoBehaviour
                 grounded = true;
                 if (!wasGrounded) {                 
                     onLandEvent.Invoke(GetComponent<CircleCollider2D>(), colliders[i].gameObject);
+                    if (calcs.canJump) {
+                        calcs.canJump = false;
+                        calcs.Init();
+                    }
                 }
             }
         }
