@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'High Scores: '
+  m_text: 'Levels Completed:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0187a6291b2d08e489357d595df306a4, type: 2}
   m_sharedMaterial: {fileID: -2687078545035215374, guid: 0187a6291b2d08e489357d595df306a4, type: 2}

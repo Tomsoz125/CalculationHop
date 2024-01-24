@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class LevelSelector : MonoBehaviour, IDataPersistence
 {
     public GameObject levelObject;
-    public DataPersistenceManager dataPersistenceManager;
     public List<GameObject> levelButtons = new List<GameObject>();
     public Dictionary<int, int> scenes = new Dictionary<int, int>();
-    private Dictionary<int, int> scores;
+    private GameData data;
 
-    void Awake() {
-        dataPersistenceManager.LoadGame(PlayerPrefs.GetString("playerName"));
+    async void Awake() {
+        DataPersistenceManager.instance.AddDataPersistenceObject(this);
+        DataPersistenceManager.instance.LoadGame(PlayerPrefs.GetString("playerName"));
+        while (data == null) {
+            await Task.Delay(25);
+        }
+        Debug.Log(data);
 
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
             string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
@@ -48,6 +53,10 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
                 continue;
             }
 
+            if (data.scores.ContainsKey(levelNo)) {
+                levelObj.GetComponent<Image>().color = new Color32(40, 255, 0, 255);
+            }
+
             buttonObj.onClick.AddListener(delegate {SelectLevel(levelObj);});
 
             scenes.Add(levelNo, i);
@@ -61,7 +70,8 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
     }
 
     public void LoadData(GameData data) {
-        scores = data.scores;
+        Debug.Log(data);
+        this.data = data;
     }
 
     public void SaveData(ref GameData data) {}

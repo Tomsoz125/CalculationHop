@@ -32,6 +32,8 @@ public class DataPersistenceManager : MonoBehaviour {
         instance = this;
         DontDestroyOnLoad(gameObject);
 
+        dataPersistenceObjects = FindAllDataPersistenceObjects();
+
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
     }
 
@@ -74,7 +76,9 @@ public class DataPersistenceManager : MonoBehaviour {
 
         Debug.Log("Loaded \"" + name + "\"'s game.");
 
+        Debug.Log(dataPersistenceObjects.Count);
         foreach (IDataPersistence dataPersistence in dataPersistenceObjects) {
+            Debug.Log("hello");
             dataPersistence.LoadData(gameData);
         }
     }
@@ -91,8 +95,13 @@ public class DataPersistenceManager : MonoBehaviour {
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects() {
+        Debug.Log("hello1");
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IDataPersistence>();
         return new List<IDataPersistence>(dataPersistenceObjects);
+    }
+
+    public void AddDataPersistenceObject(IDataPersistence obj) {
+        dataPersistenceObjects.Add(obj);
     }
 
     public bool HasGameData() {
@@ -103,11 +112,15 @@ public class DataPersistenceManager : MonoBehaviour {
         Dictionary<string, int> scores = new Dictionary<string, int>();
         GameData[] data = dataHandler.LoadAll();
         foreach (GameData d in data) {
-            if (d.scores.ContainsKey(level)) {
-                scores.Add(d.name, d.scores.GetValueOrDefault(level, -1));
+            if (level < 0) {
+                scores.Add(d.name, d.scores.Count);
+            } else {
+                if (d.scores.ContainsKey(level)) {
+                    scores.Add(d.name, d.scores.GetValueOrDefault(level, -1));
+                }
             }
         }
 
-        return new Dictionary<string, int>(from entry in scores orderby entry.Value ascending select entry);
+        return new Dictionary<string, int>(from entry in scores orderby entry.Value descending select entry);
     }
 }
