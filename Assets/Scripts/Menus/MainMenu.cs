@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     public GameObject levelSelector;
     public GameObject failMenu;
 
-    string playerName;
+    private string playerName;
 
     void Awake() {
         Debug.Log(PlayerPrefs.GetInt("end"));
