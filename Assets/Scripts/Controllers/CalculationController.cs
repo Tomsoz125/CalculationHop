@@ -28,8 +28,8 @@ public class CalculationController : MonoBehaviour
         if (validated == answer || canJump) {
             canJump = true;
             input.text = "";
-            validated = "";
             display.text = "Correct!";
+            return;
         }
 
         if (display.text != equation + validated) {

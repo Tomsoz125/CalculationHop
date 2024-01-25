@@ -10,7 +10,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Collectable
   - Water
   - UI
   - Ball
@@ -48,6 +48,9 @@ TagManager:
     locked: 0
   - name: Score
     uniqueID: 893036931
+    locked: 0
+  - name: Collectable
+    uniqueID: 1540434691
     locked: 0
   - name: Ball
     uniqueID: 1904370067

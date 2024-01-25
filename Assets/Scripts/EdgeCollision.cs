@@ -12,6 +12,7 @@ public class EdgeCollision : MonoBehaviour
 
     [Header("Ball Configuration")]
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private PhysicsMaterial2D bounce;
 
     // Called when an enabled script instance is called.
     void Awake() {
@@ -46,6 +47,7 @@ public class EdgeCollision : MonoBehaviour
 
         // Sets the points of the collider to the corners of the camera.
         var edgePoints = new [] {bottomLeft, topLeft, topRight, bottomRight};
+        edge.sharedMaterial = bounce;
         edge.points = edgePoints;
     }
 

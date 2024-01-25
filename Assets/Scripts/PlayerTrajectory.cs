@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Search;
 using UnityEngine;
@@ -8,20 +9,20 @@ public class PlayerTrajectory : MonoBehaviour
     [Header("Ball Configuration")]
     [SerializeField] private PlayerController playerController;
 
-    [Header("Point Configuration")]
+    [Header("Line Configuration")]
     [SerializeField] private GameObject pointPrefab;
+    [SerializeField] private int numberPoints;
 
 
     // PRIVATE VARIABLES
     private GameObject[] points;
-    private int numberPoints;
     private Vector2 direction;
 
     // CONSTANTS
     const float groundRadius = .5f;
 
     // Called before the first frame update.
-    private void Start() {
+    void Start() {
         points = new GameObject[numberPoints];
         for (int i = 0; i < numberPoints; i++) {
             points[i] = Instantiate(pointPrefab, transform.position, Quaternion.identity);
@@ -30,7 +31,7 @@ public class PlayerTrajectory : MonoBehaviour
     }
 
     // Called every frame
-    private void Update() {
+    void Update() {
         // Transforms a point in screen space to a point in game space.
         Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // Gets the position of the current object.

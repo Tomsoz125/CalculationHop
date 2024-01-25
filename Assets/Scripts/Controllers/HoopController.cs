@@ -1,6 +1,7 @@
 using System.Collections; // TODO: MAKE THE BALL STAY RENDERED AT THE BOTTOM OF THE HOOP WHEN IT ROTATES
 using System.Collections.Generic; // TODO: ADD HOOP PULL BACK
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HoopController : MonoBehaviour
@@ -16,6 +17,7 @@ public class HoopController : MonoBehaviour
     private Vector3 objectPos;
     private CircleCollider2D player;
     private int hoopId;
+    [SerializeField] private GameObject starPrefab;
 
     public PlayerController playerController;
     public TextMeshProUGUI scoreText;
@@ -31,6 +33,15 @@ public class HoopController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         
         hoopId = int.Parse(gameObject.name.Replace("Hoop", ""));
+
+        if (Random.value > 0.5) {
+            if (hoopId == 0) return;
+
+            GameObject star = Instantiate(starPrefab);
+            star.name = "Star" + hoopId;
+            star.transform.SetParent(gameObject.transform, false);
+            star.transform.localPosition = new Vector2(0, 1);
+        }
     }
 
     void FixedUpdate() {
