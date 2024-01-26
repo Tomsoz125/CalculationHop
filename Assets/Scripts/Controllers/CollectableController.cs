@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CollectableController : MonoBehaviour
 {
+    public PlayerController playerController;
+
     private void OnTriggerEnter2D() {
         gameObject.SetActive(false);
-        // TODO: SAVE STARS
+        
+        playerController.starCount += 1;
     }
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDataPersistence
 {
     public Transform groundCheck;
     public Transform topCheck;
@@ -12,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public Camera mainCam;
     public float force = 5f;
 
+    [SerializeField] private TMP_Text starCounter;
+ 
     const float groundRadius = .2f;
     public const float forceMultiplier = 1.9f;
     public bool grounded;
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public GameObject lastHoop;
     private int stillFor = 0;
     public Vector3 lastLocation;
+    public int starCount = 0;
 
     public Vector3 initialPosition;
 
@@ -34,14 +38,11 @@ public class PlayerController : MonoBehaviour
     private Vector2 direction;
 
     public int score = 0;
-    public int perfectStreak = 0;
 
     public List<int> hoops = new List<int>();
 
 
     void Awake() {
-        hoops.Add(0);
-
         rb = GetComponent<Rigidbody2D>();
         initialPosition = gameObject.transform.position;
 
@@ -94,6 +95,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update() {
+        starCounter.text = starCount.ToString();
+
         lastLocation = gameObject.transform.position;
         if (stillFor > 3) {
             transform.position = lastHoop == null ? initialPosition : lastHoop.transform.position;
@@ -149,5 +152,13 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void LoadData(GameData data) {
+        starCount = data.stars;
+    }
+
+    public void SaveData(ref GameData data) {
+        data.stars = starCount;
     }
 }

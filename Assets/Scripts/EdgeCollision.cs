@@ -46,7 +46,7 @@ public class EdgeCollision : MonoBehaviour
         var edge = GetComponent<EdgeCollider2D>() == null ? gameObject.AddComponent<EdgeCollider2D>() : GetComponent<EdgeCollider2D>();
 
         // Sets the points of the collider to the corners of the camera.
-        var edgePoints = new [] {bottomLeft, topLeft, topRight, bottomRight};
+        var edgePoints = new [] {bottomLeft, topLeft, topRight, bottomRight, bottomLeft};
         edge.sharedMaterial = bounce;
         edge.points = edgePoints;
     }

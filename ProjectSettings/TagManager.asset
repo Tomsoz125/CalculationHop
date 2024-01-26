@@ -58,3 +58,6 @@ TagManager:
   - name: Hoop
     uniqueID: 819967351
     locked: 0
+  - name: StarCounter
+    uniqueID: 4089481241
+    locked: 0

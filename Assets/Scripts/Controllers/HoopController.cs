@@ -24,9 +24,6 @@ public class HoopController : MonoBehaviour
     public PlayerTrajectory trajectories;
     public Quaternion rot;
 
-    
-
-
 
 
     void Awake() {
@@ -41,6 +38,7 @@ public class HoopController : MonoBehaviour
             star.name = "Star" + hoopId;
             star.transform.SetParent(gameObject.transform, false);
             star.transform.localPosition = new Vector2(0, 1);
+            star.GetComponent<CollectableController>().playerController = playerController;
         }
     }
 
@@ -73,10 +71,10 @@ public class HoopController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D ball) {
-        if (hoopId == 0) playerController.SetCurrentHoop(gameObject);
-        if (playerController.hoops.Contains(hoopId)) return;
-
         playerController.SetCurrentHoop(gameObject);
+        if (playerController.hoops.Contains(hoopId)) return;
+        if (hoopId == 0) playerController.hoops.Add(0);
+        
         if (playerController.GetLastHoop() != null && playerController.GetLastHoop() != gameObject) {
             playerController.score += 1;
             playerController.hoops.Add(hoopId);
@@ -85,9 +83,7 @@ public class HoopController : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D ball) {
-        if (!playerController.grounded) {
-            playerController.lastHoop = playerController.currentHoop;
-            playerController.currentHoop = null;
-        }
+        playerController.lastHoop = playerController.currentHoop;
+        playerController.currentHoop = null;
     }
 }
