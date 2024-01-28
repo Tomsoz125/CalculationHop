@@ -53,7 +53,7 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
                 continue;
             }
 
-            if (data.scores.ContainsKey(levelNo)) {
+            if (data.completedLevels.ContainsKey(levelNo)) {
                 levelObj.GetComponent<Image>().color = new Color32(40, 255, 0, 255);
             }
 

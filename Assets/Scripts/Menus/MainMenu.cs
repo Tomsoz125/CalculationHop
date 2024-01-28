@@ -12,14 +12,18 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject levelSelector;
     public GameObject failMenu;
+    public GameObject winMenu;
 
     private string playerName;
 
     void Awake() {
-        Debug.Log(PlayerPrefs.GetInt("end"));
         if (PlayerPrefs.GetInt("end") > 0) {
             gameObject.SetActive(false);
             failMenu.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt("win") > 0) {
+            gameObject.SetActive(false);
+            winMenu.SetActive(true);
         }
     }
 

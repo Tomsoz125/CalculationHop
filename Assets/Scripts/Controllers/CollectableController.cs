@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableController : MonoBehaviour
+public class CollectableController : MonoBehaviour, IDataPersistence
 {
     public PlayerController playerController;
 
@@ -10,5 +10,14 @@ public class CollectableController : MonoBehaviour
         gameObject.SetActive(false);
         
         playerController.starCount += 1;
+        DataPersistenceManager.instance.SaveGame();
+    }
+
+    public void LoadData(GameData data) {
+        playerController.starCount = data.stars;
+    }
+
+    public void SaveData(ref GameData data) {
+        data.stars = playerController.starCount;
     }
 }

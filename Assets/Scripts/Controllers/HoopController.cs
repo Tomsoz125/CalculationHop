@@ -1,8 +1,6 @@
-using System.Collections; // TODO: MAKE THE BALL STAY RENDERED AT THE BOTTOM OF THE HOOP WHEN IT ROTATES
-using System.Collections.Generic; // TODO: ADD HOOP PULL BACK
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HoopController : MonoBehaviour
 {
@@ -17,6 +15,7 @@ public class HoopController : MonoBehaviour
     private Vector3 objectPos;
     private CircleCollider2D player;
     private int hoopId;
+    private bool isEnd = false;
     [SerializeField] private GameObject starPrefab;
 
     public PlayerController playerController;
@@ -29,7 +28,8 @@ public class HoopController : MonoBehaviour
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
         
-        hoopId = int.Parse(gameObject.name.Replace("Hoop", ""));
+        if (gameObject.name == "HoopEnd") isEnd = true;
+        else hoopId = int.Parse(gameObject.name.Replace("Hoop", ""));
 
         if (Random.value > 0.5) {
             if (hoopId == 0) return;
@@ -71,7 +71,23 @@ public class HoopController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D ball) {
+        for (int i = 0; i < gameObject.transform.childCount; i++) {
+            Transform child = gameObject.transform.GetChild(i);
+            Debug.Log(child.name);
+            if (child.name.EndsWith("_0")) {
+                SpriteRenderer renderer = child.GetComponent<SpriteRenderer>();
+                renderer.color = new Color32(140, 140, 140, 255);
+            }
+        }
+
         playerController.SetCurrentHoop(gameObject);
+        if (isEnd) {
+            PlayerPrefs.SetInt("win", int.Parse(SceneManager.GetActiveScene().name.Replace("Level", "")));
+            PlayerPrefs.SetInt("score", playerController.score);
+
+            SceneManager.LoadScene(0);
+            return;
+        }
         if (playerController.hoops.Contains(hoopId)) return;
         if (hoopId == 0) playerController.hoops.Add(0);
         
@@ -83,6 +99,10 @@ public class HoopController : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D ball) {
+        if (playerController.currentHoop == gameObject) return;
+        if (playerController.lastHoop != null) {
+            playerController.lastHoop.SetActive(false);
+        }
         playerController.lastHoop = playerController.currentHoop;
         playerController.currentHoop = null;
     }
