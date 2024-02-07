@@ -10,6 +10,7 @@ using TMPro;
 public class WinMenu : MonoBehaviour, IDataPersistence
 {
     // PRIVATE SERIALIZED VARIABLES
+    [SerializeField] private TMP_Text starCount;
     [Header("Level Selector Import")]
     [SerializeField] private LevelSelector levelSelector;
 
@@ -21,6 +22,7 @@ public class WinMenu : MonoBehaviour, IDataPersistence
     private Dictionary<string, int> highScores;
     private int level;
     private int score;
+    private int stars = 0;
     
 
     // Called before the first frame update
@@ -43,24 +45,30 @@ public class WinMenu : MonoBehaviour, IDataPersistence
         DisplayLeaderboard();
     }
 
-    // Defines functionality for the BackButton
+    public void Update() {
+        starCount.text = stars.ToString();
+    }
+
+    // Creates functionality for the BackButton
     public void BackButton(GameObject mainMenu) {
         // Disables the win screen and enables the main menu
         gameObject.SetActive(false);
         mainMenu.SetActive(true);
     }
 
-    // Defines functionality for the NextButton
+    // Creates functionality for the NextButton
     public void NextButton() {
         // Uses the Level Selector's map to get the scene number of the next level.
-        int sceneNo = levelSelector.scenes.GetValueOrDefault(level, 1);
+        int sceneNo = levelSelector.scenes.GetValueOrDefault(level + 1, 1);
 
         // Loads the next level
         SceneManager.LoadScene(sceneNo);
     }
 
     // Required for data persistence
-    public void LoadData(GameData data) {}
+    public void LoadData(GameData data) {
+        stars = data.stars;
+    }
 
     // Called when the DPM tries to save data
     public void SaveData(ref GameData data) {
@@ -89,17 +97,17 @@ public class WinMenu : MonoBehaviour, IDataPersistence
             // Creates the text for the leaderboard
             GameObject text = Instantiate(leaderboardText);
             // Sets the parent object and sets it to use relative positioning
-            text.transform.SetParent(leaderboard.transform, false);#
+            text.transform.SetParent(leaderboard.transform, false);
             // Sets the name of the text for easier debugging
             text.name = "Leaderboard #" + (i + 1);
             // Checks if there is a high score for this spot
             if (i + 1 > highScores.Count) {
-                // Sets the text of the leaderboard text to the text defined in the editor
+                // Sets the text of the leaderboard text to the text in the editor
                 text.GetComponent<TMP_Text>().text = text.GetComponent<TMP_Text>().text.Replace("{pos}", (i + 1).ToString()).Replace("{name}", "None").Replace("{score}", "0");
             } else {
                 // Gets the score object
                 KeyValuePair<string, int> score = highScores.ElementAt(i);
-                // Sets the text of the leaderboard text to the text defined in the editor
+                // Sets the text of the leaderboard text to the text in the editor
                 text.GetComponent<TMP_Text>().text = text.GetComponent<TMP_Text>().text = text.GetComponent<TMP_Text>().text.Replace("{pos}", (i + 1).ToString()).Replace("{name}", score.Key).Replace("{score}", score.Value.ToString());
             }
 

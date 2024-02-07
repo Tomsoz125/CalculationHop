@@ -84,7 +84,6 @@ public class DataPersistenceManager : MonoBehaviour {
     }
 
     public void SaveGame() {
-        Debug.Log("tried to save :( " + gameData.name);
         if (gameData == null) return;
 
         foreach (IDataPersistence dataPersistence in dataPersistenceObjects) {

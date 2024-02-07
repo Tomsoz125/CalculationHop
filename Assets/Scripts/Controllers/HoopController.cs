@@ -73,7 +73,9 @@ public class HoopController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D ball) {
         for (int i = 0; i < gameObject.transform.childCount; i++) {
             Transform child = gameObject.transform.GetChild(i);
-            Debug.Log(child.name);
+            if (child.name.StartsWith("Object")) {
+                child.gameObject.SetActive(false);
+            }
             if (child.name.EndsWith("_0")) {
                 SpriteRenderer renderer = child.GetComponent<SpriteRenderer>();
                 renderer.color = new Color32(140, 140, 140, 255);
@@ -99,7 +101,7 @@ public class HoopController : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D ball) {
-        if (playerController.currentHoop == gameObject) return;
+        if (playerController.lastHoop == gameObject) return;
         if (playerController.lastHoop != null) {
             playerController.lastHoop.SetActive(false);
         }

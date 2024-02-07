@@ -10,6 +10,7 @@ using TMPro;
 public class FailMenu : MonoBehaviour, IDataPersistence
 {
     public LevelSelector levelSelector;
+    [SerializeField] private TMP_Text starCount;
     private int level;
     private int score;
 
@@ -17,6 +18,8 @@ public class FailMenu : MonoBehaviour, IDataPersistence
 
     public GameObject leaderboard;
     public GameObject leaderboardText;
+
+    private int stars = 0;
     
     void Start() {
         level = PlayerPrefs.GetInt("end");
@@ -44,7 +47,9 @@ public class FailMenu : MonoBehaviour, IDataPersistence
         SceneManager.LoadScene(sceneNo);
     }
 
-    public void LoadData(GameData data) {}
+    public void LoadData(GameData data) {
+        stars = data.stars;
+    }
 
     public void SaveData(ref GameData data) {
         if (data.scores.ContainsKey(level)) {
@@ -53,6 +58,10 @@ public class FailMenu : MonoBehaviour, IDataPersistence
         }
 
         data.scores.Add(level, score);
+    }
+
+    public void Update() {
+        starCount.text = stars.ToString();
     }
 
 

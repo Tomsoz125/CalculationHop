@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using TMPro;
 
 public class LevelSelector : MonoBehaviour, IDataPersistence
 {
     // PRIVATE SERIALIZED VARIABLES
     [SerializeField] private GameObject levelObject;
     [SerializeField] private List<GameObject> levelButtons = new List<GameObject>();
+    [SerializeField] private TMP_Text starCount;
     
     // PUBLIC VARIABLES
     public Dictionary<int, int> scenes = new Dictionary<int, int>();
@@ -77,6 +79,13 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
                 continue;
             }
 
+            for (int c = 0; i < levelObj.transform.childCount; c++) {
+                Transform child = levelObj.transform.GetChild(c);
+                if (child.name.StartsWith("Text")) {
+                    child.GetComponent<TMP_Text>().text = levelNo.ToString();
+                }
+            }
+
             // If the level has already been completed then change the colour
             if (data.completedLevels.ContainsKey(levelNo)) {
                 levelObj.GetComponent<Image>().color = new Color32(40, 255, 0, 255);
@@ -85,9 +94,16 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
             // Adds an onclick listener to select the level.
             buttonObj.onClick.AddListener(delegate {SelectLevel(levelObj);});
 
+            // Adds button to the level buttons
+            levelButtons.Add(levelObj);
+
             // Add to the scene list
             scenes.Add(levelNo, i);
         }
+    }
+
+    public void Update() {
+        starCount.text = data.stars.ToString();
     }
 
     // Defines functionality for selecting a level

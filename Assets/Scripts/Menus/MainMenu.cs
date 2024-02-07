@@ -27,6 +27,7 @@ public class MainMenu : MonoBehaviour
             failMenu.SetActive(true);
         }
         // If there is a won level stored then switch to the win menu.
+        Debug.Log(PlayerPrefs.GetInt("win"));
         if (PlayerPrefs.GetInt("win") > 0) {
             gameObject.SetActive(false);
             winMenu.SetActive(true);

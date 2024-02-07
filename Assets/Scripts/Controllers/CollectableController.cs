@@ -6,6 +6,10 @@ public class CollectableController : MonoBehaviour, IDataPersistence
 {
     public PlayerController playerController;
 
+    public void Awake() {
+        DataPersistenceManager.instance.AddDataPersistenceObject(this);
+    }
+
     private void OnTriggerEnter2D() {
         gameObject.SetActive(false);
         
