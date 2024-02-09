@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Game.sln"
+    "dotnet.defaultSolution": "Calculation Dash.sln"
 }
