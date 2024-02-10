@@ -18,6 +18,9 @@ public class WinMenu : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject leaderboard;
     [SerializeField] private GameObject leaderboardText;
 
+    [Header("Menu Objects")]
+    [SerializeField] private GameObject nextButton;
+
     // PRIVATE VARIABLES
     private Dictionary<string, int> highScores;
     private int level;
@@ -40,6 +43,11 @@ public class WinMenu : MonoBehaviour, IDataPersistence
 
         // Gets a list of all high scores from the DPM
         highScores = DataPersistenceManager.instance.GetHighScores(level);
+
+        // If it's the last level then only display the back to menu button.
+        if (levelSelector.scenes.Last().Key == level) {
+            nextButton.SetActive(false);
+        }
 
         // Displays leaderboard
         DisplayLeaderboard();

@@ -906,6 +906,7 @@ MonoBehaviour:
   levelSelector: {fileID: 2005329081}
   leaderboard: {fileID: 716467286}
   leaderboardText: {fileID: 869712831170716923, guid: 10719c9a90e4fd94293075ff22fc8ba4, type: 3}
+  nextButton: {fileID: 1893339396}
 --- !u!4 &715067562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6655281588750222851, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
@@ -2813,7 +2814,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -205486055
-  m_SortingLayer: 6
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: -1967145716185427822, guid: 5ba4ca607a8f56e4cad204b873558683, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2898,7 +2899,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -205486055
-  m_SortingLayer: 6
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: -1967145716185427822, guid: 5ba4ca607a8f56e4cad204b873558683, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2983,7 +2984,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -205486055
-  m_SortingLayer: 6
+  m_SortingLayer: 3
   m_SortingOrder: 3
   m_Sprite: {fileID: -1967145716185427822, guid: 5ba4ca607a8f56e4cad204b873558683, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
