@@ -9,7 +9,6 @@ using TMPro;
 
 public class FailMenu : MonoBehaviour, IDataPersistence
 {
-    public LevelSelector levelSelector;
     [SerializeField] private TMP_Text starCount;
     private int level;
     private int score;
@@ -20,7 +19,26 @@ public class FailMenu : MonoBehaviour, IDataPersistence
     public GameObject leaderboardText;
 
     private int stars = 0;
+    private Dictionary<int, int> scenes = new Dictionary<int, int>();
     
+    void Awake() {
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
+            // Gets the path of the scene
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            // Splits the path into an array
+            string[] scenePathSplit = scenePath.Split("/");
+            // Gets the name of the scene, there isn't a built in way to do this without loading the scene :(
+            string name = scenePathSplit[scenePathSplit.Length - 1].Split(".")[0];
+
+            // If it isn't a level then go to the next element in the loop
+            if (!name.Contains("Level")) continue;
+
+            // Gets the level number
+            int levelNo = int.Parse(name.Replace("Level", ""));
+            scenes.Add(levelNo, i);
+        }
+    }
+
     void Start() {
         level = PlayerPrefs.GetInt("end");
         score = PlayerPrefs.GetInt("score");
@@ -42,7 +60,7 @@ public class FailMenu : MonoBehaviour, IDataPersistence
 
     public void RetryButton() {
         int levelNo = PlayerPrefs.GetInt("end");
-        int sceneNo = levelSelector.scenes.GetValueOrDefault(levelNo, 1);
+        int sceneNo = scenes.GetValueOrDefault(levelNo, 1);
 
         SceneManager.LoadScene(sceneNo);
     }

@@ -11,8 +11,6 @@ public class WinMenu : MonoBehaviour, IDataPersistence
 {
     // PRIVATE SERIALIZED VARIABLES
     [SerializeField] private TMP_Text starCount;
-    [Header("Level Selector Import")]
-    [SerializeField] private LevelSelector levelSelector;
 
     [Header("Leaderboard Information")]
     [SerializeField] private GameObject leaderboard;
@@ -22,11 +20,29 @@ public class WinMenu : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject nextButton;
 
     // PRIVATE VARIABLES
+    private Dictionary<int, int> scenes = new Dictionary<int, int>();
     private Dictionary<string, int> highScores;
     private int level;
     private int score;
     private int stars = 0;
     
+    void Awake() {
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++) {
+            // Gets the path of the scene
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            // Splits the path into an array
+            string[] scenePathSplit = scenePath.Split("/");
+            // Gets the name of the scene, there isn't a built in way to do this without loading the scene :(
+            string name = scenePathSplit[scenePathSplit.Length - 1].Split(".")[0];
+
+            // If it isn't a level then go to the next element in the loop
+            if (!name.Contains("Level")) continue;
+
+            // Gets the level number
+            int levelNo = int.Parse(name.Replace("Level", ""));
+            scenes.Add(levelNo, i);
+        }
+    }
 
     // Called before the first frame update
     void Start() {
@@ -45,7 +61,7 @@ public class WinMenu : MonoBehaviour, IDataPersistence
         highScores = DataPersistenceManager.instance.GetHighScores(level);
 
         // If it's the last level then only display the back to menu button.
-        if (levelSelector.scenes.Last().Key == level) {
+        if (scenes.Last().Key == level) {
             nextButton.SetActive(false);
         }
 
@@ -67,7 +83,7 @@ public class WinMenu : MonoBehaviour, IDataPersistence
     // Creates functionality for the NextButton
     public void NextButton() {
         // Uses the Level Selector's map to get the scene number of the next level.
-        int sceneNo = levelSelector.scenes.GetValueOrDefault(level + 1, 1);
+        int sceneNo = scenes.GetValueOrDefault(level + 1, 1);
 
         // Loads the next level
         SceneManager.LoadScene(sceneNo);

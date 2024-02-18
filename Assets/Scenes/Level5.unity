@@ -719,7 +719,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3255629077484721403, guid: 4faeeb52ebb5ae048a2f9dde47aff77e, type: 3}
       propertyPath: m_Name
-      value: Hoop0 (1)
+      value: Hoop1
       objectReference: {fileID: 0}
     - target: {fileID: 4495472595782529103, guid: 4faeeb52ebb5ae048a2f9dde47aff77e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1269,7 +1269,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3255629077484721403, guid: 4faeeb52ebb5ae048a2f9dde47aff77e, type: 3}
       propertyPath: m_Name
-      value: Hoop0 (2)
+      value: Hoop2
       objectReference: {fileID: 0}
     - target: {fileID: 4495472595782529103, guid: 4faeeb52ebb5ae048a2f9dde47aff77e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2063,7 +2063,7 @@ PrefabInstance:
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: calcs
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1556520273}
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: mainCam
       value: 
@@ -2071,7 +2071,7 @@ PrefabInstance:
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: starCounter
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1794983628}
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: edgeCollision
       value: 

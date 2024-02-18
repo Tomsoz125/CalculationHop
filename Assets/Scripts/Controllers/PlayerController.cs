@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     }
 
     void Update() {
+        Debug.Log(starCount);
         starCounter.text = starCount.ToString();
 
         lastLocation = gameObject.transform.position;

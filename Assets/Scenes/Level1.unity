@@ -2315,7 +2315,7 @@ PrefabInstance:
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: calcs
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 313213116}
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: mainCam
       value: 
@@ -2323,7 +2323,7 @@ PrefabInstance:
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: starCounter
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 691922073}
     - target: {fileID: 7200691310605147134, guid: 5a4892920201ae94fb524b06f8b616cd, type: 3}
       propertyPath: edgeCollision
       value: 

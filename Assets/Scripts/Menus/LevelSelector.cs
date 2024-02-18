@@ -52,7 +52,7 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
                 position = new Vector2(-250, 150);
             } else {
                 // Gets the previous button's position
-                position = levelButtons.Last().transform.position;
+                position = levelButtons.Last().transform.localPosition;
                 // Sets the position of the button
                 if (position.x >= 250) {
                     position.y -= 200;
@@ -79,7 +79,7 @@ public class LevelSelector : MonoBehaviour, IDataPersistence
                 continue;
             }
 
-            for (int c = 0; i < levelObj.transform.childCount; c++) {
+            for (int c = 0; c < levelObj.transform.childCount; c++) {
                 Transform child = levelObj.transform.GetChild(c);
                 if (child.name.StartsWith("Text")) {
                     child.GetComponent<TMP_Text>().text = levelNo.ToString();
