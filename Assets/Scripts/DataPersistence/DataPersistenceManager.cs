@@ -76,9 +76,8 @@ public class DataPersistenceManager : MonoBehaviour {
 
         Debug.Log("Loaded \"" + name + "\"'s game.");
 
-        Debug.Log(dataPersistenceObjects.Count);
+        PlayerPrefs.SetInt("stars", gameData.stars);
         foreach (IDataPersistence dataPersistence in dataPersistenceObjects) {
-            Debug.Log("hello");
             dataPersistence.LoadData(gameData);
         }
     }

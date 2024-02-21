@@ -21,6 +21,10 @@ public class MainMenu : MonoBehaviour
 
     // Called when an enabled script instance is called.
     void Awake() {
+        Camera cam = Camera.main;
+        Debug.Log(cam.pixelWidth);
+        Debug.Log(cam.pixelHeight);
+
         // If there is a failed level stored then switch to the fail menu.
         if (PlayerPrefs.GetInt("end") > 0) {
             gameObject.SetActive(false);

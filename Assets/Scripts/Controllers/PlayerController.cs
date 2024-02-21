@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour, IDataPersistence
 {
@@ -18,7 +17,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     const float groundRadius = .2f;
     public const float forceMultiplier = 1.9f;
     public bool grounded;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public bool isDragging = false;
     public GameObject currentHoop;
     public GameObject lastHoop;
@@ -43,6 +42,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
 
     void Awake() {
+        starCount = PlayerPrefs.GetInt("stars");
         rb = GetComponent<Rigidbody2D>();
         initialPosition = gameObject.transform.position;
 
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     }
 
     void Update() {
-        Debug.Log(starCount);
+        Debug.Log(starCount.ToString());
         starCounter.text = starCount.ToString();
 
         lastLocation = gameObject.transform.position;

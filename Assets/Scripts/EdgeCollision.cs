@@ -58,6 +58,7 @@ public class EdgeCollision : MonoBehaviour
 
         if (playerController.score < 1) {
             // If they failed the first jump dont bother going to the fail screen and just reset them.
+            playerController.rb.velocity = new Vector2(0, 0);
             playerController.transform.position = playerController.lastHoop == null ? playerController.initialPosition : playerController.lastHoop.transform.position;
         } else {
             // Sets the level number and the score to be accessed in the fail menu.
